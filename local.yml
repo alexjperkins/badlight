@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: ./compose/local/flask/Dockerfile
+
+    image: badlight_local_flask
+
+    volumes:
+      - .:/app
+
+    env_file:
+      - ./.envs/.local/.flask
+
+    ports:
+      - "5000:5000"
+
+    command: /start

@@ -1,0 +1,34 @@
+## Python
+__pycache__/
+*.py[cod]
+
+## Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+
+## Sphinx Docs
+docs/_build/
+
+## Environments
+.env
+.envs/
+!.envs/.local/
+.venv
+venv
+ENV/
+
+## Coverage
+coverage
+
+## Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+## IPython
+.ipython/
