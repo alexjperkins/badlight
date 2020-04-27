@@ -9,7 +9,7 @@ services:
     image: badlight_local_flask
 
     volumes:
-      - .:/app
+      - ./badlight:/src
 
     env_file:
       - ./.envs/.local/.flask

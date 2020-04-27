@@ -4,6 +4,6 @@ from flask import jsonify, Blueprint
 internal_blueprint = Blueprint("Internal", __name__)
 
 
-@internal_blueprint.route('/__healthcheck__', methods=['GET'])
+@internal_blueprint.route("/healthcheck", methods=["GET"])
 def healthcheck():
-    return jsonify('healthy'), 200
+    return jsonify("healthy"), 200
