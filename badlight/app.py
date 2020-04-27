@@ -1,16 +1,16 @@
-from flask import Flask
+from flask import Flask, jsonify
 
 
-_VERSION = '0.0.1'
-_API_ROOT = 'api/v1'
+_VERSION = "0.0.1"
+_API_ROOT = "api/v1"
 
 
 def create_app():
     app = Flask(__name__)
 
-    @app.route('/version', methods=['GET'])
+    @app.route("/version", methods=["GET"])
     def version():
-        return f'<div>{_VERSION}</div>'
+        return jsonify({"version": _VERSION}), 200
 
     from .blueprints import register_blueprints
 

@@ -12,16 +12,15 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY ./requirements /requirements
-RUN pip install -r ./requirements/development.txt
+RUN pip install -r /requirements/development.txt
 
-COPY ./compose/production/flask/entrypoint ./entrypoint
-RUN sed -i 's/\r$//g' ./entrypoint
-RUN chmod +x ./entrypoint
+COPY ./compose/production/flask/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
 
-COPY ./compose/local/flask/start ./start
-RUN sed -i 's/\r$//g' ./start
-RUN chmod +x ./start
+COPY ./compose/local/flask/start /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
 
-WORKDIR /app
-
-ENTRYPOINT ["/entrypoint"]
+WORKDIR /src
+ENV PYTHONPATH=/src
