@@ -1,15 +1,24 @@
 ### --- Flask --- ###
-test:
-	PYTHONPATH=./badlight pytest ./tests/
-
-coverage:
-	PYTHONPATH=./badlight pytest --cov=badlight --cov-report term-missing ./tests/
-
 lint:
 	black ./badlight --diff
 
 format:
 	black ./badlight 
+
+shell:
+	docker-compose -f local.yml run --rm flask flask shell
+
+
+### --- Testing --- ###
+test:
+	docker-compose -f local.yml run --rm -e BADLIGHT_ENVIRONMENT=testing flask pytest /tests/
+
+debug-test:
+	docker-compose -f local.yml run --rm -e BADLIGHT_ENVIRONMENT=testing flask pytest -s /tests/
+
+coverage:
+	docker-compose -f local.yml run --rm -e BADLIGHT_ENVIRONMENT=testing flask pytest \
+	       	--cov=badlight --cov-report term-missing /tests/
 
 
 ### --- Docker Compose --- ###
@@ -22,5 +31,21 @@ run_flask_local:
 run_local:
 	docker-compose -f local.yml up
 
-run_and_build_local:
+build_and_run_local:
 	docker-compose -f local.yml up --build
+
+
+### --- Migrations --- ###
+init_migrations:
+	docker-compose -f local.yml run --rm flask flask db init
+
+makemigrations:
+	docker-compose -f local.yml run --rm flask flask db migrate 
+
+migrate:
+	docker-compose -f local.yml run --rm flask flask db upgrade
+
+
+### --- PostgreSQL --- ###
+psql:
+	docker-compose -f local.yml up --build postgres

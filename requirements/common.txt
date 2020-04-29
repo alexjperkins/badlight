@@ -6,3 +6,4 @@ graphene==2.1.*
 graphene-sqlalchemy==2.2.*
 gunicorn==20.0.*
 psycopg2==2.8.*
+python-dotenv==0.13.*

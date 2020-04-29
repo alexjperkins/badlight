@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+if [ -z "${POSTGRES_USER}" ]; then
+	base_postgres_default_user='postgres'
+	export POSTGRES_USER="{base_postgres_default_user}"
+fi
+export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+
+wait_for_postgres() {
+	for i in `seq 1 10`;
+	do
+		nc -z ${POSTGRES_HOST} ${POSTGRES_PORT} && echo Success: Connected to postgres... && return 0
+		echo -n .
+		sleep 1
+	done
+	echo Failed waiting for postgres... && exit 1
+}
+
+wait_for_postgres
+exec "$@"

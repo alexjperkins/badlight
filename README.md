@@ -63,8 +63,68 @@ The frontend to the backend is located at: `https://github.com/alexjperkins/badl
 	$ docker-compose -f local.yml up --build
 ```
 
-## Run Test
+## Database Migration
+For the first migration run the following command:
+```
+	$ make migrate
 
+	or 
+
+	$ docker-compose -f local.yml run --rm flask flask db upgrade
+```	
+
+After any code changes please run the following to create a new migration file
+```
+	$ make makemigration
+
+	or
+
+	$ docker-compose -f local.yml run --rm flask flask db migrate
+```
+
+Followed by the above comman to perfrom a migration (`make migrate`)
+
+NOTE: This project has scripts to automatically bootstrap models.
+The script iterates through the project and finds `models.py` files,
+it will then import then into the application factory method `create_app`, in 
+just before `flask_migrate.Migrate` is instantiated
+
+Therefore, please if creating new models include a `__all__` as the top of the
+`model.py` file, and be sure to include all models you would like to be registered:
+
+```
+# Example/models.py
+
+
+__all__ = [
+	"ModelA",
+]
+
+
+class ModelA:
+	# pass
+```
+
+Furthermore, in the test `<project_root>/tests/config/test_bootstrap.py` : 
+be sure to add the new model to the `expected_registered_models` fixture.
+
+Final words on this, this is an experimental pattern and I'm unsure whether it's
+going to stay, but the key rationale was to allow for the splitting of models over
+multiple files, without the need to import them individually into the
+application factory method
+
+## Shell
+To use a shell with the correct application context use:
+```
+	$ make shell
+
+	or 
+
+	$ docker-compose -f local.yml run --rm flask flask shell
+```
+
+
+## Tests
 Since tests aren't copied over the local Dockerfile, located at `~/badlight/compose/local/flask/Dockerfile`
 please setup a virtualenv as shown above and activate,
 otherwise run the following commands to setup:
