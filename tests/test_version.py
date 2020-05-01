@@ -1,4 +1,4 @@
-from badlight.app import _API_ROOT, _VERSION
+from badlight.app import _VERSION
 
 
 def test_version(client):

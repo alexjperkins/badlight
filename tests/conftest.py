@@ -3,10 +3,12 @@ from urllib.parse import urlparse
 
 import flask_migrate
 from flask_sqlalchemy import SQLAlchemy
+from graphene.test import Client as GraphQLClient
 import pytest
 from pytest_postgresql.factories import DatabaseJanitor
 
 from badlight.app import create_app
+from badlight.schema import schema as badlight_graphql_schema
 
 
 @pytest.fixture(scope="session")
@@ -81,3 +83,8 @@ def postgres_db_version(app):
 @pytest.fixture
 def alembic_root(app):
     return str(Path(app.root_path) / "migrations")
+
+
+@pytest.fixture
+def graphql_client():
+    return GraphQLClient(badlight_graphql_schema)

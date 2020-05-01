@@ -13,7 +13,11 @@ shell:
 test:
 	docker-compose -f local.yml run --rm -e BADLIGHT_ENVIRONMENT=testing flask pytest /tests/
 
-debug-test:
+update_test_snapshots:
+	docker-compose -f local.yml run --rm -e BADLIGHT_ENVIRONMENT=testing flask pytest \
+	       	--snapshot-update /tests/
+
+debug_tests:
 	docker-compose -f local.yml run --rm -e BADLIGHT_ENVIRONMENT=testing flask pytest -s /tests/
 
 coverage:

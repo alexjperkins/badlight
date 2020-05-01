@@ -1,17 +1,36 @@
 ### Badlight Backend
 
 This is the backend to the Badlight Personal Management tool, it is built upon the flask framework
-with GraphQL APIs - written in python 3.8 of course.
+with GraphQL APIs and PostgreSQL database - written in python 3.8 of course, linted using black:
+
+```
+	black: https://github.com/psf/black
+```
 
 The frontend to the backend is located at: `https://github.com/alexjperkins/badlight-frontend`
 
 
-
 ## Requirements
 
-- Python 3.8
-- Git
-- Docker	
+- Python 3.8 (https://www.python.org/downloads/)
+- Git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- Docker (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- Docker-Compose (https://docs.docker.com/compose/install/)
+
+NOTE: This project was build using Arch Linux. Any Linux distribution should be fine
+	as long as it's up to date with security patches & common libraries.
+	Likewise with MacOS, however this isn't built with Windows in mind and you
+	will likely find bugs.
+	Its also recommended to use the package manager associated with your machine.
+		eg. 
+		Arch: pacman
+		Debian (based): apt
+		MacOS: brew
+	This is just recommendation, and is left at the users discretion
+
+
+Enjoy!
+
 
 ```
 	$ python --version && git --version && docker -- version
@@ -26,6 +45,9 @@ The frontend to the backend is located at: `https://github.com/alexjperkins/badl
 	    . ./venv/bin/activate &&
 	    ./venv/bin/pip install -r ./requirements/development.txt
 ```
+
+This is only a demonstration, it's probably easy to setup up via docker-compose
+commands as this will give you a setup postgres instance for free
 
 ## Build Flask Only
 ```
@@ -135,19 +157,38 @@ otherwise run the following commands to setup:
 The test runner for this project is `pytest`, run the tests as follows:
 ```
 	$ make test
+```
 
-	or 
+Another thing to note with this project is the use of `snapshot`:
 
-	$ PYTHONPATH=./badlight pytest ./tests/
+```
+	https://github.com/syrusakbary/snapshottest
+```
+
+## Test Snapshots
+This is useful library to test against graphql endpoints. The first time a test is ran
+it creates a `snapshot` and stores to the directory most local to where the test is located.
+Repeating the test, will check the outpoint from the endpoint against this.
+Therefore it's advisable to run the test at least twice.
+
+Any changes to the endpoint definition will require the updating of the snapshots. This can be
+done with the following command:
+
+```
+	make update_test_snapshots
+```
+Make sure ALL snapshots are committed to source control
+
+## Debug Tests
+Sometimes you would like to debug tests, with a debugger such as `ipdb`
+This requires capturing the stdout from pytest. This is managed with the following command:
+```
+	make debug-tests
 ```
 
 ## Test Coverage
 ```
 	$ make coverage
-
-	or 
-
-	$ PYTHONPATH=./badlight pytest --cov=badlight --cov-report term-missing ./tests/
 ```
 
 ## Linting

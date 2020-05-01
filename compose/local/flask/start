@@ -4,4 +4,4 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-/bin/bash -c "cd / && gunicorn 'badlight.app:create_app()' --bind 0.0.0.0:5000 --workers 5"
+/bin/bash -c "cd / && gunicorn 'badlight.app:create_app()' --bind 0.0.0.0:5000 --workers 1 --reload"

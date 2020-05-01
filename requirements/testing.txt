@@ -7,4 +7,5 @@ pytest==5.4.*
 pytest-cov==2.8.*
 pytest-flask-sqlalchemy==1.0.*
 pytest-postgresql==2.3.*
+snapshottest==0.5.*
 sqlalchemy-diff==0.1.*

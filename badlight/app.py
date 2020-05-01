@@ -5,6 +5,7 @@ from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
+
 _VERSION = "0.0.1"
 _API_ROOT = "api/v1"
 _PROJECT_ROOT = Path(__file__).parent
@@ -17,13 +18,16 @@ def create_app(*, environment=None):
     app = Flask(__name__)
 
     from .blueprints import register_blueprints
-    from .utils.config import initialize_config
+    from .schema import schema
     from .utils.bootstrap import bootstrap_models
+    from .utils.graphql import initialize_graphql
+    from .utils.config import initialize_config
     from .utils.environment import initialize_environment
 
     environment = environment or os.environ.get("BADLIGHT_ENVIRONMENT", "local")
     initialize_environment(environment=environment)
     initialize_config(app=app, environment=environment)
+    initialize_graphql(app=app, schema=schema)
 
     db.init_app(app)
     # bootstraps multiple model files
