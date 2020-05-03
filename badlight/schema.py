@@ -3,15 +3,15 @@ from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 
 from .app import _VERSION
-from .user.apis import CreateUser, GetUser
+from .user.apis import RegisterUser, FetchUser
 
 
 class Mutations(graphene.ObjectType):
     # users
-    create_user = CreateUser.Field()
+    register_user = RegisterUser.Field()
 
 
-class Query(GetUser,):
+class Query(FetchUser,):
     # __internal__
     node = relay.Node.Field()
     version = graphene.String(name=graphene.String())
