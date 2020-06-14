@@ -1,3 +1,3 @@
 from .api import UserAPI
-from .mutations import CreateUser
+from .mutations import RegisterUser
 from .queries import GetUser

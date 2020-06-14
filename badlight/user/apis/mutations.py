@@ -3,7 +3,7 @@ import graphene
 from ..services import UserService
 
 
-class CreateUser(graphene.Mutation):
+class RegisterUser(graphene.Mutation):
     class Arguments:
         first_name = graphene.String(required=True)
         last_name = graphene.String(required=True)
